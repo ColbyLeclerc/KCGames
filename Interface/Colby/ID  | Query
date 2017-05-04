@@ -1,0 +1,46 @@
+ ID  | Query
+------------------------------
+  8  | I would like to see the total rating for the game
+  9  | I would like to see all games that start with the letter A
+ 10  | I want to find out what category game ‘x’ falls under
+ 11  | I would like to see the highest rated game
+ 12  | I would like to see the highest rated review for game ‘x’
+ 13  | I would like to see all games that are in stock
+ 14  | I would like to see all games released between January 1st 2012, and January 1st 2013
+ 15  | I would like to see the newest review for game ‘x’
+ 16  | I would like to see the lowest rated review for game ‘x’
+
+/**
+SELECT rv.GameID FROM Game as gm, Review as rv WHERE gm.GameID = rv.GameID GROUP BY rv.GameID HAVING COUNT(rv.GameID) > 1
+
+SELECT gm.Title, gm.Genre, gm.Description, MAX(rv.Star_Rating) as Rating FROM Game as gm, Review as rv WHERE gm.GameID = rv.GameID AND gm.GameID = 12 GROUP BY rv.Star_Rating, gm.Title, gm.Genre, gm.Description
+**/
+
+
+ ID | Raw Query
+--------------------------------
+  8 | SELECT AVG(rv.Star_Rating) FROM Game as gm, Review as rv WHERE gm.GameID = rv.GameID AND gm.GameID = '';
+  9 | SELECT * FROM Game WHERE Title LIKE 'A%'
+ 10 | SELECT Genre FROM Game WHERE GameID = 2
+ 11 | SELECT gm.Title as title, gm.Genre, gm.Description, MAX(rv.Star_Rating) as Rating FROM Game as gm, Review as rv WHERE rv.GameID = gm.GameID GROUP BY title, gm.Genre, gm.Description ORDER BY Rating DESC LIMIT 1
+ 12 | SELECT gm.Title, rv.Description, rv.Star_Rating, rv.Author FROM Game as gm, Review as rv WHERE gm.GameID = rv.GameID AND gm.GameID = 51 GROUP BY rv.Star_Rating, gm.Title, rv.Description, rv.Author ORDER BY rv.Star_Rating DESC LIMIT 1 
+ 13 | SELECT * FROM Game WHERE Stock_Status = 'In Stock'
+ 14 | SELECT * FROM Game WHERE Release_Date BETWEEN '2005-01-01' AND '2010-01-01'
+ 15 | SELECT * FROM Review WHERE GameID = 2 ORDER BY Post_Date DESC
+ 16 | SELECT * FROM Review WHERE GameID = 2 ORDER BY Rating ASC
+
+
+ Site Topography
+ ===============
+
+ ID |     First Page      |        Result Page
+----------------------------------------------------
+ 8  | DisplayGamesQ8.php  | TotalRatingQ8.php
+ 9  | DisplayGamesQ9.php  | GamesStartWithQ9.php
+ 10 | DisplayGamesQ10.php | GamesWithCategoryQ10.php
+ 11 | HighestRatedGameQ11.php | HighestRatedGameQ11.php (Same page)
+ 12 | DisplayGamesQ12.php | HighestRatedReviewQ12.php
+ 13 | GamesInStockQ13.php | GamesInStock.php (Same page)
+ 14 | GamesReleasedBetweenQ14.php | GamesReleasedBetweenQ14.php (Same page)
+ 15 | DisplayGamesQ15.php | NewestReviewQ15.php
+ 16 | DisplayGamesQ16.php | LowestRatedReviewQ16.php
